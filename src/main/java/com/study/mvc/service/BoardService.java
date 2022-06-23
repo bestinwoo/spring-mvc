@@ -15,4 +15,6 @@ public class BoardService {
     public List<Board> getBoardList() {
         return boardRepository.findAll();
     }
+
+
 }

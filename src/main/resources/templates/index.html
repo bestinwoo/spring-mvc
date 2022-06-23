@@ -13,18 +13,10 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>
-                        번호
-                    </th>
-                    <th>
-                        제목
-                    </th>
-                    <th>
-                        작성일
-                    </th>
-                    <th>
-                        작성자
-                    </th>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성일</th>
+                    <th>작성자</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -62,9 +54,9 @@
                 </ul>
             </nav>
             <div class="text-end">
-                <button type="button" class="btn btn-primary" sec:authorize="isAuthenticated()">
+                <a type="button" class="btn btn-primary" th:href="@{/board/form}" sec:authorize="isAuthenticated()">
                     글쓰기
-                </button>
+                </a>
             </div>
         </div>
     </div>
