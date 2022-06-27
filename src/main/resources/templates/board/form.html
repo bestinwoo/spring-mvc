@@ -4,17 +4,27 @@
     <div th:replace="/fragments/header.html :: fragment-header"></div>
 </head>
 <body>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
 <div class="container">
     <p>
     <h2>게시글 작성</h2>
     <form action="#" th:action="@{/board/form}" th:object="${board}" method="post">
+        <input type="hidden" th:field="*{id}">
         <div class="form-group">
             <label for="title" class="form-label">제목</label>
-            <input type="text" class="form-control" id="title" th:field="*{title}">
+            <input type="text" class="form-control" id="title" th:field="*{title}"
+                   th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+                제목 에러 메시지
+            </div>
         </div>
         <div class="form-group">
             <label for="content" class="form-label">내용</label>
-            <textarea class="form-control" id="content" rows="3" th:field="*{content}"></textarea>
+            <textarea class="form-control" id="content" rows="3" th:field="*{content}"
+                      th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
+                내용 에러 메시지
+            </div>
         </div>
         <input type="hidden" th:value="${writer}" th:field="*{writer}"
         <div class="text-end">
