@@ -9,6 +9,7 @@ import com.study.mvc.service.BoardService;
 import com.study.mvc.validator.BoardValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
+@Transactional
 public class BoardController {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
@@ -58,7 +60,7 @@ public class BoardController {
                 throw new IllegalStateException("로그인 정보가 없습니다.");
             });
         }, () -> {
-        throw new IllegalStateException("로그인 정보가 없습니다.");
+        throw new IllegalStateException("게시글 정보가 없습니다.");
         });
 
         return "board/form";
@@ -84,5 +86,26 @@ public class BoardController {
         }
         model.addAttribute("board", board);
         return "board/detail";
+    }
+
+    //게시글 삭제
+    @DeleteMapping("/board/delete/{id}")
+    public String deleteBoard(@PathVariable Long id, HttpSession session) {
+        SessionMember sessionMember = (SessionMember) session.getAttribute("member");
+        boardRepository.findById(id).ifPresentOrElse(b -> {
+            memberRepository.findByName(sessionMember.getName()).ifPresentOrElse(m -> {
+                if(!b.getWriter().getId().equals(m.getId())) {
+                    throw new IllegalStateException("작성자만 게시글 삭제이 가능합니다.");
+                }
+                boardRepository.delete(b);
+            }, () -> {
+                throw new IllegalStateException("로그인 정보가 없습니다.");
+            });
+        }, () -> {
+            throw new IllegalStateException("게시글 정보가 없습니다.");
+        });
+        
+
+        return "redirect:/";
     }
 }
