@@ -25,7 +25,7 @@ public class Member {
     public Member update(String name, String picture) {
         this.name = name;
         this.picture_url = picture;
-
+        this.role = "ROLE_USER";
         return this;
     }
 }

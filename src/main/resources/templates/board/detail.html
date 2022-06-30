@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <div th:replace="/fragments/header.html :: fragment-header"></div>
 </head>
@@ -24,6 +24,15 @@
                 </section>
             </article>
             <hr>
+            <div class="text-end">
+                <a type="button" class="btn btn-primary" th:href="@{/board/form/{boardId}(boardId=${board.id})}" th:if="${postOwner}" sec:authorize="isAuthenticated()">
+                    수정
+                </a>
+                <a type="button" class="btn btn-primary" th:href="@{/board/form}" th:if="${postOwner}" sec:authorize="isAuthenticated()">
+                    삭제
+                </a>
+                <p>
+            </div>
             <!-- Comments section-->
 <!--            <section class="mb-5">-->
 <!--                <div class="card bg-light">-->
